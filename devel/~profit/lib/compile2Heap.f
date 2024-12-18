@@ -204,6 +204,7 @@ ON-COMPILE-START
 \ end-vc -- действие выполняемое после исполнения всего кода из всех кусков внутри кодофайла 
 \ (при условии что выход их определения EXIT не будет вызван явно)
 : _CREATE-VC ( end-vc blockSize -- vc )
+\ NB: vc is a subtype of xt and contains executable code in the first 6 bytes
 codePatches ALLOCATE-RWX THROW >R
 0x68 R@ rlit C!
 0xC3 R@ ret C!
@@ -219,11 +220,11 @@ R> ;
 \ Уничтожить кодофайл и память занятую под его "куски"
 : DESTROY-VC ( vc -- )
 DUP end-vc @ SWAP DUP firstBlock@ blocks'Code ( end-vc vc xt )
-SWAP FREE THROW \ освобождаем управляющую структуру кодофайла
+SWAP FREE-RWX THROW \ освобождаем управляющую структуру кодофайла
 BEGIN
 0 blocks'Code - \ от xt переходим к адресу блока кода, для этого отходим назад
 DUP nextBlock @
-SWAP FREE THROW
+SWAP FREE-RWX THROW
 \ -1 counter +!  counter @ CR . \ для контроля забора и отдачи памяти
 2DUP = UNTIL 2DROP ;
 
