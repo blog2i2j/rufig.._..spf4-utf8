@@ -1,4 +1,4 @@
-\ 22.Mar.2004 
+\ 22.Mar.2004
 \ $Id$
 
 \ [UNDEFINED] HEAP-GLOBAL [IF] [THEN]
@@ -12,12 +12,12 @@
 : DEL-HEAP ( h -- ior )
   HeapDestroy ERR
 ;
-: WITH-HEAP   ( xt heap -- )  \ xt WITH HEAP heap 
+: WITH-HEAP   ( xt heap -- )  \ xt WITH HEAP heap
   HEAP-ID >R  HEAP-ID!
   CATCH   R> HEAP-ID!
   THROW
 ;
-: WITHIN-HEAP ( heap xt -- ) \ heap xt WITHIN-HEAP 
+: WITHIN-HEAP ( heap xt -- ) \ heap xt WITHIN-HEAP
   SWAP WITH-HEAP
 ;
 \ EXECUTE-WITH-HEAP
@@ -27,7 +27,7 @@
   R> DEL-HEAP   SWAP THROW THROW \ вначале от CATCH
 ;
 
-: WITH-HEAP-CATCH   ( xt heap -- 0 | ior )  \ xt WITHIN HEAP heap 
+: WITH-HEAP-CATCH   ( xt heap -- 0 | ior )  \ xt WITHIN HEAP heap
   HEAP-ID >R  HEAP-ID!
   CATCH   R> HEAP-ID!
 ;
